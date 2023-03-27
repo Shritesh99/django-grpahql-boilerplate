@@ -32,6 +32,8 @@ DEBUG = env('DEBUG') == "True"
 
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",")
 
+CSRF_TRUSTED_ORIGINS = env("DJANGO_ALLOWED_CLIENTS").split(",")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -147,8 +149,8 @@ GRAPHENE = {
 GRAPHQL_JWT = {
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
-    "JWT_EXPIRATION_DELTA": timedelta(minutes=5),
-    "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=7),
+    "JWT_EXPIRATION_DELTA": timedelta(days=30),
+    "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=60),
 }
 
 SOCIAL_AUTH_PIPELINE = [
@@ -199,3 +201,11 @@ SOCIAL_AUTH_PIPELINE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', default='')
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', default='')
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'openid'
+]
+
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
